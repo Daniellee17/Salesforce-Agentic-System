@@ -34,7 +34,7 @@ This file, the agents in `agents/` and the skills in `skills/` are kept in `C:\U
 
 ## Agents and skills
 
-Use the project agents in `.claude/agents` for these jobs instead of doing them inline:
+Use the agents in `agents/` and the skills in `skills/` of this folder for these jobs instead of doing them inline:
 
 | Request | Use |
 |---|---|
@@ -44,3 +44,6 @@ Use the project agents in `.claude/agents` for these jobs instead of doing them 
 | Write test steps or a test plan for a change | `test-steps-writer` |
 | Analyse a pasted user story or ticket | `user-story-analyst` |
 | Write the Technical Description / TYPE-NAME-CHANGES table | `tech-description` skill |
+| List the components to deploy for a story, or check nothing was forgotten | `deploy-components` skill |
+
+When the user says they are done with a user story, or before opening a pull request, run the `deploy-components` skill without being asked.

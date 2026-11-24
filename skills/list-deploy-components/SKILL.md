@@ -1,11 +1,11 @@
 ---
 name: list-deploy-components
-description: Lists every component changed for the current user story in the crm-coe repo as one table (TYPE / NAME / SUMMARY OF CHANGE / IN DEPLOY), so nothing is forgotten before a PR or deploy. It covers components in deploy/ and components changed only in src, flags what looks missing or out of sync, and pastes the result in the chat. Use it when the user asks for the deploy list, the list of components to deploy, what they changed for a story or ticket, a deployment checklist, or says they are done with a story or about to open a PR.
+description: Lists every component changed for the current user story in the crm-coe repo as one table (TYPE / NAME / SUMMARY OF CHANGE / IN DEPLOY), so nothing is forgotten before a PR or deploy. It covers components in deploy/ and components changed only in src, flags what looks missing or out of sync, and saves the result as an HTML file in Documents\deploy-lists that the user can open and copy. Use it when the user asks for the deploy list, the list of components to deploy, what they changed for a story or ticket, a deployment checklist, or says they are done with a story or about to open a PR.
 ---
 
 # List deploy components
 
-List every component changed on the current branch for the user story, so the user does not forget any. The output goes **only in the chat**: never write it to a file, never create an HTML page, never send a file. This skill only reads: never edit, copy, stage, commit, retrieve or deploy anything.
+List every component changed on the current branch for the user story, so the user does not forget any. The result is an **HTML file** the user can open and copy from (see section 5). Apart from writing that one file, this skill only reads: never edit, copy, stage, commit, retrieve or deploy anything in the repo.
 
 ## 1. Collect the components
 
@@ -68,14 +68,22 @@ For every component, compare `src/main/default/<path>` with `deploy/<path>` (`gi
 
 ## 5. Output
 
-Start with one line: the branch, the ticket key, and the number of components.
+Write the result as an HTML file at `C:\Users\espiritd\Documents\deploy-lists\<TICKET>_deploy_list.html` (for example `CRM-10954_deploy_list.html`; use the branch name when it has no ticket key). This folder is outside the repo, so the file never shows up in a pull request. Overwrite the file if it already exists. Then send it to the user rendered (SendUserFile with `display: "render"`) so they can select and copy the table, and in the chat give one line with the file path and any items from the check list below.
 
-Then one table, ordered configuration first (Custom Label, Custom Field, Field Set, Validation Rule, Permission Set, Flow, Record Page, Page Layout, Lightning Web Component, and so on), then Apex Trigger, Apex Class and Apex Test Class last:
+The file is a complete HTML page with inline styles only (no external CSS or scripts), so the formatting survives copying:
+
+- `<meta charset="utf-8">` and a `<title>` of `<TICKET> Deploy List`
+- `body` in Segoe UI / Arial, 10pt
+- first a paragraph: the branch in `<strong>`, the ticket key, and the number of components
+- then one table with `border="1" cellpadding="6" cellspacing="0"` and `border-collapse:collapse`, a light grey header row, and headers written as `<th><strong>TYPE</strong></th>` so they stay bold when pasted
+- values, field names and conditions in `<code>`, and **New:** / **Deleted:** in `<strong>`
+
+Order the table rows configuration first (Custom Label, Custom Field, Field Set, Validation Rule, Permission Set, Flow, Record Page, Page Layout, Lightning Web Component, and so on), then Apex Trigger, Apex Class and Apex Test Class last:
 
 | TYPE | NAME | SUMMARY OF CHANGE | IN DEPLOY |
 |---|---|---|---|
 
-Then a short **Check before deploying** list, only with items that apply:
+After the table, add a paragraph headed **Check before deploying** with a list of the items that apply:
 
 - components marked **➖ src only**, asking the user to confirm each one should stay out of `deploy/` (say "expected" for page layouts)
 - components marked **⚠️ Differs** or **❓ deploy only**

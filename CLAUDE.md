@@ -44,6 +44,6 @@ Use the agents in `agents/` and the skills in `skills/` of this folder for these
 | Write test steps or a test plan for a change | `test-steps-writer` |
 | Analyse a pasted user story or ticket | `user-story-analyst` |
 | Write the Technical Description / TYPE-NAME-CHANGES table | `tech-description` skill |
-| List the components to deploy for a story, or check nothing was forgotten | `deploy-components` skill |
+| List the components to deploy for a story, or check nothing was forgotten | `list-deploy-components` skill |
 
-When the user says they are done with a user story, or before opening a pull request, run the `deploy-components` skill without being asked.
+When the user says they are done with a user story, or before opening a pull request, run the `list-deploy-components` skill without being asked.

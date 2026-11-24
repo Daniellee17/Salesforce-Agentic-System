@@ -1,9 +1,9 @@
 ---
-name: deploy-components
+name: list-deploy-components
 description: Lists every component changed for the current user story in the crm-coe repo as one table (TYPE / NAME / SUMMARY OF CHANGE / IN DEPLOY), so nothing is forgotten before a PR or deploy. It covers components in deploy/ and components changed only in src, flags what looks missing or out of sync, and pastes the result in the chat. Use it when the user asks for the deploy list, the list of components to deploy, what they changed for a story or ticket, a deployment checklist, or says they are done with a story or about to open a PR.
 ---
 
-# Deploy components
+# List deploy components
 
 List every component changed on the current branch for the user story, so the user does not forget any. The output goes **only in the chat**: never write it to a file, never create an HTML page, never send a file. This skill only reads: never edit, copy, stage, commit, retrieve or deploy anything.
 

@@ -45,5 +45,7 @@ Use the agents in `agents/` and the skills in `skills/` of this folder for these
 | Analyse a pasted user story or ticket | `user-story-analyst` |
 | Write the Technical Description / TYPE-NAME-CHANGES table | `tech-description` skill |
 | List the components to deploy for a story, or check nothing was forgotten | `list-deploy-components` skill |
+| Apply PMD rules / fix PMD or Code Analyzer violations in Apex | `apex-pmd-rules` skill |
+| Clean code review or refactor of Apex (Clean Apex Code book) | `apex-clean-code` skill |
 
 When the user says they are done with a user story, or before opening a pull request, run the `list-deploy-components` skill without being asked.

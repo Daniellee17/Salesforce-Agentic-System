@@ -7,7 +7,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$alwaysIgnored = @('ApexDoc')
+$alwaysIgnored = @()
 $ignoredUnlessNew = @('CyclomaticComplexity')
 
 Push-Location $RepoRoot
@@ -82,15 +82,20 @@ try {
     $result = Get-Content $json -Raw | ConvertFrom-Json
     $kept = 0
     $skipped = 0
+    $apexDocCounts = @{}
     foreach ($v in $result.violations) {
         $loc = $v.locations[[int]$v.primaryLocationIndex]
         $rel = ([IO.Path]::GetFullPath($loc.file)).Substring($RepoRoot.Length + 1).Replace('\', '/')
+        if ($v.rule -eq 'ApexDoc') { $apexDocCounts[$rel] = 1 + [int]$apexDocCounts[$rel]; continue }
         if ($alwaysIgnored -contains $v.rule) { $skipped++; continue }
         if (($ignoredUnlessNew -contains $v.rule) -and -not $newSet[$rel]) { $skipped++; continue }
         $kept++
         Write-Output ("VIOLATION sev{0} {1} {2}:{3} {4}" -f $v.severity, $v.rule, $rel, $loc.startLine, $v.message)
     }
-    Write-Output "SUMMARY files=$($files.Count) violations=$kept ignored=$skipped json=$json"
+    foreach ($f in ($apexDocCounts.Keys | Sort-Object)) {
+        Write-Output ("APEXDOC {0} count={1}" -f $f, $apexDocCounts[$f])
+    }
+    Write-Output "SUMMARY files=$($files.Count) violations=$kept apexdoc_files=$($apexDocCounts.Count) ignored=$skipped json=$json"
 }
 finally {
     Pop-Location
